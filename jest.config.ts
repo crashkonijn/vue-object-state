@@ -28,7 +28,7 @@ const config: Config.InitialOptions = {
   collectCoverageFrom: [
     "src/lib/*.{js,ts}"
   ],
-  "coverageReporters": ["json", "html"]
+  "coverageReporters": ["json", "html", "lcov"]
 };
 
 export default config;

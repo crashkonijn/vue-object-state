@@ -1,6 +1,6 @@
 {
   "name": "vue-object-state",
-  "version": "1.0.0",
+  "version": "0.1.0",
   "description": "A library that helps you keep track of changes in your dtos",
   "main": "build/main/index.js",
   "typings": "build/main/index.d.ts",
@@ -26,6 +26,7 @@
     "watch:test": "jest --config jest.config.ts --watch",
     "cov": "run-s build cov:html && open-cli coverage/index.html",
     "cov:html": "jest --config jest.config.ts --coverage",
+    "cov:send": "run-s cov:html && codecov",
     "doc": "run-s doc:html && open-cli build/docs/index.html",
     "doc:html": "typedoc src/ --exclude **/*.spec.ts --target ES6 --mode file --out build/docs",
     "doc:json": "typedoc src/ --exclude **/*.spec.ts --target ES6 --mode file --json build/docs/typedoc.json",
