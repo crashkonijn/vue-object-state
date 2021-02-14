@@ -6,7 +6,8 @@ const config: Config.InitialOptions = {
     ".(ts|tsx)": "ts-jest"
   },
   testEnvironment: "node",
-  testRegex: ".+\\.test\\.ts$",
+  // testRegex: ".+\\.test\\.ts$",
+  testMatch: ["**/test/**/*.test.[jt]s?(x)"],
   moduleFileExtensions: [
     "ts",
     "tsx",
