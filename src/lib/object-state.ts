@@ -2,7 +2,7 @@ import { StateBuilder } from './state-builder';
 import { IBuildable, IState, ObjectProperties } from './types';
 
 export class ObjectState<TObject> implements IState, IBuildable<TObject> {
-  public readonly properties: ObjectProperties<TObject>;
+  public properties: ObjectProperties<TObject>;
 
   get isDirty(): boolean {
     return this.properties.isDirty;
@@ -14,5 +14,9 @@ export class ObjectState<TObject> implements IState, IBuildable<TObject> {
 
   build(): TObject {
     return this.properties.build();
+  }
+
+  clean(): void {
+    this.properties.clean()
   }
 }
