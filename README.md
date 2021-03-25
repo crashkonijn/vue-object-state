@@ -3,7 +3,7 @@
 [![Codecov](https://img.shields.io/codecov/c/github/crashkonijn/vue-object-state.svg)](https://codecov.io/gh/bitjson/typescript-starter)
 [![CircleCI](https://img.shields.io/circleci/project/github/crashkonijn/vue-object-state.svg)](https://circleci.com/gh/bitjson/typescript-starter)
 
-A library that helps you keep track of changes in your dtos
+A typescript library that helps you keep track of changes in your dtos
 
 ## Basic example
 
