@@ -97,4 +97,48 @@ describe('ObjectState', () => {
       expect(result.address.street).toBe(street)
     })
   })
+
+  it('should be able to clean', () => {
+    // Arrange
+    const firstName = 'Eugene'
+    const user = new User({
+      firstName: 'Spongebob',
+    })
+    const state = new ObjectState(user)
+    state.properties.firstName.value = firstName
+
+    // Act
+    const act = () => state.clean()
+
+    // Assert
+    expect(state.properties.firstName.value).toBe(firstName)
+    expect(state.isDirty).toBeTruthy()
+
+    act()
+
+    expect(state.properties.firstName.value).toBe(firstName)
+    expect(state.isDirty).toBeFalsy()
+  })
+
+  it('should be able to reset', () => {
+    // Arrange
+    const firstName = 'Eugene'
+    const user = new User({
+      firstName: 'Spongebob',
+    })
+    const state = new ObjectState(user)
+    state.properties.firstName.value = firstName
+
+    // Act
+    const act = () => state.reset()
+
+    // Assert
+    expect(state.properties.firstName.value).toBe(firstName)
+    expect(state.isDirty).toBeTruthy()
+
+    act()
+
+    expect(state.properties.firstName.value).toBe('Spongebob')
+    expect(state.isDirty).toBeFalsy()
+  })
 })

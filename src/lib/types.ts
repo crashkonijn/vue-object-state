@@ -9,8 +9,18 @@ export interface IBuildable<TObject> {
   build(): TObject;
 }
 
+export interface ICleanable {
+  clean(): void;
+}
+
+export interface IResetable {
+  reset(): void;
+}
+
 export type ObjectProperties<TObject> = IState &
   IBuildable<TObject> &
+  ICleanable &
+  IResetable &
   {
     [TKey in keyof TObject]: TObject[TKey] extends object
       ? ObjectProperties<TObject[TKey]>
