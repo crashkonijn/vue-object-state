@@ -1,9 +1,10 @@
 # vue-object-state
 
-[![Codecov](https://img.shields.io/codecov/c/github/crashkonijn/vue-object-state.svg)](https://codecov.io/gh/bitjson/typescript-starter)
-[![CircleCI](https://img.shields.io/circleci/project/github/crashkonijn/vue-object-state.svg)](https://circleci.com/gh/bitjson/typescript-starter)
+[![NPM version](https://img.shields.io/npm/v/vue-object-state.svg)](https://www.npmjs.com/package/vue-object-state)
+[![Codecov](https://img.shields.io/codecov/c/github/crashkonijn/vue-object-state.svg)](https://codecov.io/gh/crashkonijn/vue-object-state)
+[![CircleCI](https://img.shields.io/circleci/project/github/crashkonijn/vue-object-state.svg)](https://circleci.com/gh/crashkonijn/vue-object-state)
 
-A library that helps you keep track of changes in your dtos
+A typescript library that helps you keep track of changes in your dtos
 
 ## Basic example
 
