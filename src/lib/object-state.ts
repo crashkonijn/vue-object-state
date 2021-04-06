@@ -4,10 +4,11 @@ import {
   ICleanable,
   IResetable,
   IState,
-  ObjectProperties
-} from './types'
+  ObjectProperties,
+} from './types';
 
-export class ObjectState<TObject> implements IState, ICleanable, IResetable, IBuildable<TObject> {
+export class ObjectState<TObject>
+  implements IState, ICleanable, IResetable, IBuildable<TObject> {
   public properties: ObjectProperties<TObject>;
 
   get isDirty(): boolean {
@@ -23,10 +24,10 @@ export class ObjectState<TObject> implements IState, ICleanable, IResetable, IBu
   }
 
   clean(): void {
-    this.properties.clean()
+    this.properties.clean();
   }
 
   reset(): void {
-    this.properties.reset()
+    this.properties.reset();
   }
 }

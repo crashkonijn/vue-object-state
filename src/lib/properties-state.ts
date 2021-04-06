@@ -5,10 +5,11 @@ import {
   ICleanable,
   IResetable,
   IState,
-  ObjectProperties
-} from './types'
+  ObjectProperties,
+} from './types';
 
-export class PropertiesState<TObject> implements IState, IBuildable<TObject>, ICleanable, IResetable {
+export class PropertiesState<TObject>
+  implements IState, IBuildable<TObject>, ICleanable, IResetable {
   private _properties!: ObjectProperties<TObject>;
   private _original: TObject;
 

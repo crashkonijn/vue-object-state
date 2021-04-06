@@ -1,9 +1,10 @@
 import _ from 'lodash';
 import Vue from 'vue';
 
-import { IBuildable, ICleanable, IResetable, IState } from './types'
+import { IBuildable, ICleanable, IResetable, IState } from './types';
 
-export class PropertyState<TValue> implements IState, IBuildable<TValue>, ICleanable, IResetable {
+export class PropertyState<TValue>
+  implements IState, IBuildable<TValue>, ICleanable, IResetable {
   private _value!: TValue;
   private _original!: TValue;
 
@@ -33,6 +34,6 @@ export class PropertyState<TValue> implements IState, IBuildable<TValue>, IClean
   }
 
   clean(): void {
-    this._original = this._value
+    this._original = this._value;
   }
 }

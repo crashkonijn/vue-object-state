@@ -18,7 +18,9 @@ export interface IResetable {
 }
 
 export type ObjectProperties<TObject> = IState &
-  IBuildable<TObject> & ICleanable & IResetable &
+  IBuildable<TObject> &
+  ICleanable &
+  IResetable &
   {
     [TKey in keyof TObject]: TObject[TKey] extends object
       ? ObjectProperties<TObject[TKey]>
