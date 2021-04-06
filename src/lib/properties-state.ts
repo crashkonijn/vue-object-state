@@ -1,8 +1,15 @@
 import _ from 'lodash';
 
-import { IBuildable, IState, ObjectProperties } from './types';
+import {
+  IBuildable,
+  ICleanable,
+  IResetable,
+  IState,
+  ObjectProperties,
+} from './types';
 
-export class PropertiesState<TObject> implements IState, IBuildable<TObject> {
+export class PropertiesState<TObject>
+  implements IState, IBuildable<TObject>, ICleanable, IResetable {
   private _properties!: ObjectProperties<TObject>;
   private _original: TObject;
 
@@ -31,5 +38,13 @@ export class PropertiesState<TObject> implements IState, IBuildable<TObject> {
     });
 
     return obj;
+  }
+
+  clean(): void {
+    Object.values(this._properties).forEach((x) => (x as ICleanable).clean());
+  }
+
+  reset(): void {
+    Object.values(this._properties).forEach((x) => (x as IResetable).reset());
   }
 }
