@@ -1,7 +1,6 @@
 import { describe, expect, it } from '@jest/globals'
 import { User } from './helpers'
-import Collection from '../src/lib/collection'
-import { ObjectState } from '../src'
+import { ObjectState, CollectionState } from '../src'
 
 describe('Collection', () => {
   it('should create object states', () => {
@@ -9,7 +8,7 @@ describe('Collection', () => {
     const users = [new User()]
 
     // Act
-    const collection = new Collection(users)
+    const collection = new CollectionState(users)
 
     // Assert
     expect(collection.elements).toHaveLength(1)
@@ -22,7 +21,7 @@ describe('Collection', () => {
       const users = [new User()]
 
       // Act
-      const collection = new Collection(users)
+      const collection = new CollectionState(users)
 
       // Assert
       expect(collection.elements).toHaveLength(1)
@@ -34,7 +33,7 @@ describe('Collection', () => {
       const user = new User({
         firstName: 'Eugene'
       })
-      const collection = new Collection([user])
+      const collection = new CollectionState([user])
 
       // Act
       const act = () => collection.get(0).properties.firstName.value = 'Spongebob'
@@ -58,7 +57,7 @@ describe('Collection', () => {
       })
 
       // Act
-      const collection = new Collection([user])
+      const collection = new CollectionState([user])
 
       // Assert
       expect(collection.count).toBe(1)
@@ -73,7 +72,7 @@ describe('Collection', () => {
       })
 
       // Act
-      const collection = new Collection([user])
+      const collection = new CollectionState([user])
 
       // Assert
       expect(collection.get(0).properties.firstName.value).toBe('Eugene')
@@ -87,7 +86,7 @@ describe('Collection', () => {
         firstName: 'Eugene'
       })
 
-      const collection = new Collection<User>([])
+      const collection = new CollectionState<User>([])
 
       // Act
       const act = () => collection.add(user)
@@ -109,7 +108,7 @@ describe('Collection', () => {
         firstName: 'Eugene'
       })
 
-      const collection = new Collection<User>([user])
+      const collection = new CollectionState<User>([user])
       const state = collection.get(0)
 
       state.properties.firstName.value = 'Spongebob'
@@ -134,7 +133,7 @@ describe('Collection', () => {
         firstName: 'Eugene'
       })
 
-      const collection = new Collection<User>([user])
+      const collection = new CollectionState<User>([user])
       const state = collection.get(0)
 
       state.properties.firstName.value = 'Spongebob'
@@ -159,7 +158,7 @@ describe('Collection', () => {
         firstName: 'Eugene'
       })
 
-      const collection = new Collection<User>([user])
+      const collection = new CollectionState<User>([user])
 
       // Act
       const result = collection.build()

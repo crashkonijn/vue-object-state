@@ -64,7 +64,7 @@ const users = [
 ]
 
 // Create a new collection object
-const collection = new Collection(users)
+const collection = new CollectionState(users) // CollectionState<User>
 
 collection.count // 2
 collection.elements // ObjectState<User>[]

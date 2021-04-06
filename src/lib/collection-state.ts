@@ -1,7 +1,7 @@
 import { ObjectState } from './object-state';
 import { IBuildable, ICleanable, IResetable } from './types';
 
-export default class Collection<T>
+export class CollectionState<T>
   implements ICleanable, IResetable, IBuildable<T[]> {
   private _elements: ObjectState<T>[];
 
