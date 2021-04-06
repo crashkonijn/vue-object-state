@@ -55,3 +55,23 @@ state.properties.reset()
 state.properties.firstName.reset()
 state.reset()
 ```
+
+## Collection
+```typescript
+const users = [
+  new User({ firstName: 'Spongebob' }),
+  new User({ firstName: 'Eugene' })
+]
+
+// Create a new collection object
+const collection = new Collection(users)
+
+collection.count // 2
+collection.elements // ObjectState<User>[]
+collection.dirtyElements // ObjectState<User>[]
+collection.get(0) // ObjectState<User>
+collection.add(new User({ firstName: 'Patrick' }))
+collection.clean() // calls clean on every element
+collection.reset() // calls reset on every element
+collection.build() // User[]
+```
