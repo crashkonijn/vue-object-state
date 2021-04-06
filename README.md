@@ -40,6 +40,16 @@ result instanceof User // true
 result.firstName // Spongebob
 result.address instanceof Address // true
 result.address.street // Anchor Way
+
+// Use the `clean()` method to clear dirty flags. This can be useful after a save, all 'original' values will be set to their current values.
+state.properties.clean()
+state.properties.firstName.clean()
+state.clean()
+
+// Use the `reset()` method to reset dirty values. This will revert everything to their original value.
+state.properties.reset()
+state.properties.firstName.reset()
+state.reset()
 ```
 
 

@@ -1,7 +1,13 @@
 import { StateBuilder } from './state-builder';
-import { IBuildable, IState, ObjectProperties } from './types';
+import {
+  IBuildable,
+  ICleanable,
+  IResetable,
+  IState,
+  ObjectProperties
+} from './types'
 
-export class ObjectState<TObject> implements IState, IBuildable<TObject> {
+export class ObjectState<TObject> implements IState, ICleanable, IResetable, IBuildable<TObject> {
   public properties: ObjectProperties<TObject>;
 
   get isDirty(): boolean {
@@ -18,5 +24,9 @@ export class ObjectState<TObject> implements IState, IBuildable<TObject> {
 
   clean(): void {
     this.properties.clean()
+  }
+
+  reset(): void {
+    this.properties.reset()
   }
 }
