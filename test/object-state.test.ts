@@ -1,6 +1,6 @@
 import { describe, expect, it } from '@jest/globals'
 
-import { Address, User } from './_helpers'
+import { Address, User } from './helpers'
 import { ObjectState } from '../src/lib/object-state'
 import { PropertiesState } from '../src/lib/properties-state'
 
