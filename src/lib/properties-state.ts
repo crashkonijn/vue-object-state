@@ -12,12 +12,22 @@ export class PropertiesState<TObject>
   implements IState, IBuildable<TObject>, ICleanable, IResetable {
   private _properties!: ObjectProperties<TObject>;
   private _original: TObject;
+  private _key: string;
 
   get isDirty(): boolean {
     return Object.values(this._properties).some((x) => (x as IState).isDirty);
   }
 
-  constructor(obj: TObject, properties: ObjectProperties<TObject>) {
+  get key(): string {
+    return this._key;
+  }
+
+  constructor(
+    key: string,
+    obj: TObject,
+    properties: ObjectProperties<TObject>
+  ) {
+    this._key = key;
     this._properties = properties;
     this._original = obj;
 

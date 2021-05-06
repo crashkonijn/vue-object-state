@@ -33,4 +33,30 @@ describe('StateBuilder', () => {
     // Assert
     expect(state.address).toBeInstanceOf(PropertiesState)
   })
+
+  it('should build null properties correctly', () => {
+    // Arrange
+    const user = new User({
+      firstName: null
+    })
+
+    // Act
+    const state = new StateBuilder().build(user)
+
+    // Assert
+    expect(state.firstName).toBeInstanceOf(PropertyState)
+  })
+
+  it('should build undefined properties correctly', () => {
+    // Arrange
+    const user = new User({
+      firstName: undefined
+    })
+
+    // Act
+    const state = new StateBuilder().build(user)
+
+    // Assert
+    expect(state.firstName).toBeInstanceOf(PropertyState)
+  })
 })
