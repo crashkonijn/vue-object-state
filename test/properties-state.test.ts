@@ -15,7 +15,7 @@ describe('PropertiesState', () => {
     }
 
     // Act
-    const state = new PropertiesState(properties, properties as unknown as ObjectProperties<any>)
+    const state = new PropertiesState('', properties, properties as unknown as ObjectProperties<any>)
 
     // Assert
     expect(state.isDirty).toBeFalsy()
@@ -29,7 +29,7 @@ describe('PropertiesState', () => {
       }
     }
 
-    const state = new PropertiesState(properties, properties as unknown as ObjectProperties<any>)
+    const state = new PropertiesState('', properties, properties as unknown as ObjectProperties<any>)
 
     // Act
     const act = () => properties.firstName.isDirty = true
@@ -43,11 +43,11 @@ describe('PropertiesState', () => {
   it('should define dynamic properties', () => {
     // Arrange
     const properties = {
-      firstName: new PropertyState('')
+      firstName: new PropertyState('', '')
     }
 
     // Act
-    const state = new PropertiesState(properties, properties as unknown as ObjectProperties<any>) as unknown as ObjectProperties<User>
+    const state = new PropertiesState('', properties, properties as unknown as ObjectProperties<any>) as unknown as ObjectProperties<User>
 
     // Assert
     expect(state.firstName).toBeInstanceOf(PropertyState)

@@ -1,5 +1,5 @@
 export class User {
-  firstName!: string
+  firstName!: string | null
   address!: Address
 
   constructor(init?: Partial<User>) {

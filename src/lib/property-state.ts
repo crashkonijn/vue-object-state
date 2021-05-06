@@ -5,8 +5,13 @@ import { IBuildable, ICleanable, IResetable, IState } from './types';
 
 export class PropertyState<TValue>
   implements IState, IBuildable<TValue>, ICleanable, IResetable {
+  private _key: string;
   private _value!: TValue;
   private _original!: TValue;
+
+  get key(): string {
+    return this._key;
+  }
 
   get value(): TValue {
     return this._value;
@@ -20,13 +25,14 @@ export class PropertyState<TValue>
     return !_.isEqual(this._value, this._original);
   }
 
-  constructor(value: TValue) {
+  constructor(key: string, value: TValue) {
+    this._key = key;
     this.reset(value);
   }
 
   reset(value?: TValue) {
-    Vue.set(this, '_value', value ?? this._original);
-    Vue.set(this, '_original', value ?? this._original);
+    Vue.set(this, '_value', this.getResetValue(value));
+    Vue.set(this, '_original', this.getResetValue(value));
   }
 
   build(): TValue {
@@ -35,5 +41,11 @@ export class PropertyState<TValue>
 
   clean(): void {
     this._original = this._value;
+  }
+
+  private getResetValue(value?: TValue) {
+    if (value === null || value === undefined) return this._original;
+
+    return value;
   }
 }
