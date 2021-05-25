@@ -4,6 +4,7 @@ import { Address, User } from './helpers'
 import { PropertiesState } from '../src/lib/properties-state'
 import { PropertyState } from '../src/lib/property-state'
 import { StateBuilder } from '../src/lib/state-builder'
+import _ = require('lodash')
 
 describe('StateBuilder', () => {
   it('should build properties correctly', () => {
@@ -84,5 +85,19 @@ describe('StateBuilder', () => {
 
     // Assert
     expect(state.birthDate).toBeInstanceOf(PropertyState)
+  })
+
+  it('should not build private properties', () => {
+    // Arrange
+    const user = new User({})
+    _.set(user, '_private', 'test')
+
+    // Act
+    const state = new StateBuilder().build(user)
+
+    const test = _.get(state, '_private');
+
+    // Assert
+    expect(test).toBeUndefined()
   })
 })
