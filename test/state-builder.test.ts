@@ -59,4 +59,30 @@ describe('StateBuilder', () => {
     // Assert
     expect(state.firstName).toBeInstanceOf(PropertyState)
   })
+
+  it('should build array properties correctly', () => {
+    // Arrange
+    const user = new User({
+      interests: ['Counting money']
+    })
+
+    // Act
+    const state = new StateBuilder().build(user)
+
+    // Assert
+    expect(state.interests).toBeInstanceOf(PropertyState)
+  })
+
+  it('should build date properties correctly', () => {
+    // Arrange
+    const user = new User({
+      birthDate: new Date('1942-11-30')
+    })
+
+    // Act
+    const state = new StateBuilder().build(user)
+
+    // Assert
+    expect(state.birthDate).toBeInstanceOf(PropertyState)
+  })
 })

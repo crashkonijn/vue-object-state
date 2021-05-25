@@ -49,9 +49,10 @@ describe('PropertyState', () => {
     })
 
     it.each([
-      // ['string', 'Eugene', 'Spongebob'],
+      ['string', 'Eugene', 'Spongebob'],
       ['number', 0, 1],
-      // ['array', [], ['1']],
+      ['array', [], ['1']],
+      ['date', new Date(), new Date('1942-11-30')],
     ])('should update correctly [%s]', (_type, a, b) => {
       // Arrange
       const state = new PropertyState('', a)
