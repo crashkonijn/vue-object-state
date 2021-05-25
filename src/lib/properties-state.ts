@@ -32,8 +32,6 @@ export class PropertiesState<TObject>
     this._original = obj;
 
     Object.getOwnPropertyNames(properties).forEach((key: string) => {
-      if (key.startsWith('_')) return;
-
       Object.defineProperty(this, key, {
         get: () => {
           return this._properties[key as keyof TObject];
