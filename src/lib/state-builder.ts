@@ -41,11 +41,9 @@ export class StateBuilder {
   private isObject<TValue>(value: TValue): boolean {
     if (!value) return false;
 
-    if (value instanceof Date)
-      return false;
+    if (value instanceof Date) return false;
 
-    if (Array.isArray(value))
-      return false;
+    if (Array.isArray(value)) return false;
 
     return typeof value === 'object';
   }
