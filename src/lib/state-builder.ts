@@ -20,6 +20,8 @@ export class StateBuilder {
     const properties = {};
 
     Object.getOwnPropertyNames(obj).forEach((key: string) => {
+      if (key.startsWith('_')) return;
+
       const value = obj[key as keyof TObject];
       const state = this.isObject(value)
         ? this.build(value, key)

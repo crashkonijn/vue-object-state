@@ -4,6 +4,7 @@ import { User } from './helpers'
 import { PropertiesState } from '../src/lib/properties-state'
 import { PropertyState } from '../src/lib/property-state'
 import { ObjectProperties } from '../src/lib/types'
+import _ = require('lodash')
 
 describe('PropertiesState', () => {
   it('should initialize clean', () => {
@@ -51,5 +52,25 @@ describe('PropertiesState', () => {
 
     // Assert
     expect(state.firstName).toBeInstanceOf(PropertyState)
+  })
+
+  it('should not try build private properties', () => {
+    // Arrange
+    const properties = {
+      firstName: new PropertyState('', ''),
+    }
+
+    const state = new PropertiesState('', _.cloneDeep(properties), properties as unknown as ObjectProperties<any>) as unknown as ObjectProperties<User>
+
+    // inject __ob__ -> vue observer
+    _.set(state, '_properties.__ob__', {})
+
+    // Act
+
+    const result = state.build()
+
+    // Assert
+    expect(result).toHaveProperty('firstName')
+    expect(result).not.toHaveProperty('__ob__')
   })
 })

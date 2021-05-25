@@ -44,6 +44,9 @@ export class PropertiesState<TObject>
     const obj = _.cloneDeep(this._original);
 
     Object.getOwnPropertyNames(this._properties).forEach((key: string) => {
+      if (typeof this._properties[key as keyof TObject].build !== 'function')
+        return;
+
       _.set(obj as never, key, this._properties[key as keyof TObject].build());
     });
 
