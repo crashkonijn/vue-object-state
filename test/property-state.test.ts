@@ -69,4 +69,13 @@ describe('PropertyState', () => {
       expect(state.isDirty).toBe(false)
     })
   })
+
+  it('should be able to access key', () => {
+    // Arrange
+    const key = 'firstName'
+    const state = new PropertyState(key, '')
+
+    // Assert
+    expect(state.key).toBe(key)
+  })
 })

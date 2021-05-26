@@ -3,6 +3,7 @@ import { describe, expect, it } from '@jest/globals'
 import { Address, User } from './helpers'
 import { ObjectState } from '../src/lib/object-state'
 import { PropertiesState } from '../src/lib/properties-state'
+import StateValues from '../src/lib/state-values'
 
 describe('ObjectState', () => {
   it('should initialize object correctly', () => {
@@ -140,5 +141,16 @@ describe('ObjectState', () => {
 
     expect(state.properties.firstName.value).toBe('Spongebob')
     expect(state.isDirty).toBeFalsy()
+  })
+
+  it('should be able to access values', () => {
+    // Arrange
+    const state = new ObjectState(new User())
+
+    // Act
+    const values = state.values
+
+    // Assert
+    expect(values).toBeInstanceOf(StateValues)
   })
 })
