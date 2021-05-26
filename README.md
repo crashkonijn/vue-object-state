@@ -74,4 +74,35 @@ collection.add(new User({ firstName: 'Patrick' }))
 collection.clean() // calls clean on every element
 collection.reset() // calls reset on every element
 collection.build() // User[]
+
+collection.values // ObjectStateValues<User>[]
+collection.filter((obj: StateValues<User>) => obj.firstName === 'Spongebob') // ObjectState<User>[]
+collection.find((obj: StateValues<User>) => obj.firstName === 'Spongebob') // ObjectState<User> | undefined
+collection.some((obj: StateValues<User>) => obj.firstName === 'Spongebob') // boolean
+```
+
+## StateValues
+The StateValues is an object which can be navigated the same way as the original object, using magic getters and setters. This can be especially usefull in tables.
+
+```typescript
+const user = new User({
+  firstName: 'Eugene',
+  address: new Address({
+    street: 'Anchor Way'
+  })
+})
+
+const state = new ObjectState(user)
+const values: StateValues<User> = state.values
+
+state.properties.firstName.isDirty // False
+state.properties.firstName.value // Eugene
+
+values.firstName // Eugene
+values.firstName = 'Spongebob'
+state.properties.firstName.isDirty // True
+state.properties.firstName.value // Spongebob
+
+value.propertiesState // PropertiesState
+value.propertiesState.firstName.value // Spongebob
 ```
