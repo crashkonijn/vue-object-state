@@ -1,5 +1,4 @@
 import { StateBuilder } from './state-builder';
-import StateValues from './state-values';
 import {
   IBuildable,
   ICleanable,
@@ -23,7 +22,7 @@ export class ObjectState<TObject>
     return this.properties.isDirty;
   }
 
-  get values(): StateValues<TObject> & ObjectValues<TObject> {
+  get values(): ObjectValues<TObject> {
     return this.properties.values;
   }
 

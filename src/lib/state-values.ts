@@ -16,7 +16,7 @@ export default class StateValues<TObject> {
   public static from<TObject>(
     state: PropertiesState<TObject>,
     properties: ObjectProperties<TObject>
-  ): ObjectValues<TObject> & StateValues<TObject> {
+  ): ObjectValues<TObject> {
     const values = new StateValues(state);
 
     Object.getOwnPropertyNames(properties).forEach((key: string) => {
@@ -36,6 +36,6 @@ export default class StateValues<TObject> {
       }
     });
 
-    return (values as unknown) as ObjectValues<TObject> & StateValues<TObject>;
+    return (values as unknown) as ObjectValues<TObject>;
   }
 }
