@@ -19,7 +19,7 @@ export interface IResetable {
 }
 
 export interface IValues<TObject> {
-  values: StateValues<TObject> & ObjectValues<TObject>;
+  values: ObjectValues<TObject>;
 }
 
 export type ObjectProperties<TObject> = IState &
@@ -33,8 +33,9 @@ export type ObjectProperties<TObject> = IState &
       : PropertyState<TObject[TKey]>;
   };
 
-export type ObjectValues<TObject> = {
-  [TKey in keyof TObject]: TObject[TKey] extends object
-    ? ObjectValues<TObject[TKey]>
-    : TObject[TKey];
-};
+export type ObjectValues<TObject> = StateValues<TObject> &
+  {
+    [TKey in keyof TObject]: TObject[TKey] extends object
+      ? ObjectValues<TObject[TKey]>
+      : TObject[TKey];
+  };

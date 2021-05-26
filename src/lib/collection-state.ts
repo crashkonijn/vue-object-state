@@ -1,5 +1,4 @@
 import { ObjectState } from './object-state';
-import StateValues from './state-values';
 import { IBuildable, ICleanable, IResetable, ObjectValues } from './types';
 
 export class CollectionState<T>
@@ -22,7 +21,7 @@ export class CollectionState<T>
     return this._elements.length;
   }
 
-  get values(): (StateValues<T> & ObjectValues<T>)[] {
+  get values(): ObjectValues<T>[] {
     return this._elements.map((x) => x.values);
   }
 
@@ -46,19 +45,15 @@ export class CollectionState<T>
     return this._elements.map((x) => x.build());
   }
 
-  filter(
-    fn: (element: StateValues<T> & ObjectValues<T>) => boolean
-  ): ObjectState<T>[] {
+  filter(fn: (element: ObjectValues<T>) => boolean): ObjectState<T>[] {
     return this._elements.filter((e) => fn(e.values));
   }
 
-  find(
-    fn: (element: StateValues<T> & ObjectValues<T>) => boolean
-  ): ObjectState<T> | undefined {
+  find(fn: (element: ObjectValues<T>) => boolean): ObjectState<T> | undefined {
     return this._elements.find((e) => fn(e.values));
   }
 
-  some(fn: (element: StateValues<T> & ObjectValues<T>) => boolean): boolean {
+  some(fn: (element: ObjectValues<T>) => boolean): boolean {
     return this._elements.some((e) => fn(e.values));
   }
 }
