@@ -21,7 +21,7 @@ export class PropertiesState<TObject>
   private _properties!: ObjectProperties<TObject>;
   private _original: TObject;
   private _key: string;
-  private _values: ObjectValues<TObject>;
+  private _values: ObjectValues<TObject> & StateValues<TObject>;
 
   get isDirty(): boolean {
     return Object.values(this._properties).some((x) => (x as IState).isDirty);
@@ -31,7 +31,7 @@ export class PropertiesState<TObject>
     return this._key;
   }
 
-  get values(): ObjectValues<TObject> {
+  get values(): ObjectValues<TObject> & StateValues<TObject> {
     return this._values;
   }
 

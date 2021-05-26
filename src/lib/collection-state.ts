@@ -1,5 +1,6 @@
 import { ObjectState } from './object-state';
-import { IBuildable, ICleanable, IResetable } from './types';
+import StateValues from './state-values';
+import { IBuildable, ICleanable, IResetable, ObjectValues } from './types';
 
 export class CollectionState<T>
   implements ICleanable, IResetable, IBuildable<T[]> {
@@ -21,6 +22,10 @@ export class CollectionState<T>
     return this._elements.length;
   }
 
+  get values(): (StateValues<T> & ObjectValues<T>)[] {
+    return this._elements.map((x) => x.values);
+  }
+
   get(index: 0): ObjectState<T> {
     return this._elements[index];
   }
@@ -39,5 +44,21 @@ export class CollectionState<T>
 
   build(): T[] {
     return this._elements.map((x) => x.build());
+  }
+
+  filter(
+    fn: (element: StateValues<T> & ObjectValues<T>) => boolean
+  ): ObjectState<T>[] {
+    return this._elements.filter((e) => fn(e.values));
+  }
+
+  find(
+    fn: (element: StateValues<T> & ObjectValues<T>) => boolean
+  ): ObjectState<T> | undefined {
+    return this._elements.find((e) => fn(e.values));
+  }
+
+  some(fn: (element: StateValues<T> & ObjectValues<T>) => boolean): boolean {
+    return this._elements.some((e) => fn(e.values));
   }
 }

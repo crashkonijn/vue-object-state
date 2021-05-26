@@ -1,5 +1,6 @@
 /* eslint-disable @typescript-eslint/ban-types */
 import { PropertyState } from './property-state';
+import StateValues from './state-values';
 
 export interface IState {
   isDirty: boolean;
@@ -18,7 +19,7 @@ export interface IResetable {
 }
 
 export interface IValues<TObject> {
-  values: ObjectValues<TObject>;
+  values: StateValues<TObject> & ObjectValues<TObject>;
 }
 
 export type ObjectProperties<TObject> = IState &
