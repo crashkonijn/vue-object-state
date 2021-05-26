@@ -17,8 +17,13 @@ export interface IResetable {
   reset(): void;
 }
 
+export interface IValues<TObject> {
+  values: ObjectValues<TObject>;
+}
+
 export type ObjectProperties<TObject> = IState &
   IBuildable<TObject> &
+  IValues<TObject> &
   ICleanable &
   IResetable &
   {
@@ -26,3 +31,9 @@ export type ObjectProperties<TObject> = IState &
       ? ObjectProperties<TObject[TKey]>
       : PropertyState<TObject[TKey]>;
   };
+
+export type ObjectValues<TObject> = {
+  [TKey in keyof TObject]: TObject[TKey] extends object
+    ? ObjectValues<TObject[TKey]>
+    : TObject[TKey];
+};

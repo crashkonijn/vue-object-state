@@ -5,6 +5,7 @@ import { PropertiesState } from '../src/lib/properties-state'
 import { PropertyState } from '../src/lib/property-state'
 import { ObjectProperties } from '../src/lib/types'
 import _ = require('lodash')
+import StateValues from '../src/lib/state-values'
 
 describe('PropertiesState', () => {
   it('should initialize clean', () => {
@@ -72,5 +73,27 @@ describe('PropertiesState', () => {
     // Assert
     expect(result).toHaveProperty('firstName')
     expect(result).not.toHaveProperty('__ob__')
+  })
+
+  it('should be able to access values', () => {
+    // Arrange
+    const state = new PropertiesState('', { }, { } as unknown as ObjectProperties<any>)
+
+    // Act
+    const values = state.values
+
+    // Assert
+    expect(values).toBeInstanceOf(StateValues)
+  })
+
+  it('should be able to access key', () => {
+    // Arrange
+    const key = 'address'
+
+    // Act
+    const state = new PropertiesState(key, { }, { } as unknown as ObjectProperties<any>)
+
+    // Assert
+    expect(state.key).toBe(key)
   })
 })
