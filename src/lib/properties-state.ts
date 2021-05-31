@@ -4,6 +4,7 @@ import StateValues from './state-values';
 import {
   IBuildable,
   ICleanable,
+  IErrors,
   IResetable,
   IState,
   IValues,
@@ -17,11 +18,13 @@ export class PropertiesState<TObject>
     IBuildable<TObject>,
     IValues<TObject>,
     ICleanable,
-    IResetable {
+    IResetable,
+    IErrors {
   private _properties!: ObjectProperties<TObject>;
   private _original: TObject;
   private _key: string;
   private _values: ObjectValues<TObject> & StateValues<TObject>;
+  private _errors!: string[];
 
   get isDirty(): boolean {
     return Object.values(this._properties).some((x) => (x as IState).isDirty);
@@ -35,6 +38,21 @@ export class PropertiesState<TObject>
     return this._values;
   }
 
+  get errors(): string[] {
+    return this._errors;
+  }
+
+  set errors(errors: string[]) {
+    this._errors = errors;
+  }
+
+  get hasErrors(): boolean {
+    if (Object.values(this._properties).some((x) => (x as IErrors).hasErrors))
+      return true;
+
+    return !!this._errors.length;
+  }
+
   constructor(
     key: string,
     obj: TObject,
@@ -44,6 +62,7 @@ export class PropertiesState<TObject>
     this._properties = properties;
     this._original = obj;
     this._values = StateValues.from(this, properties);
+    this._errors = [];
 
     Object.getOwnPropertyNames(properties).forEach((key: string) => {
       Object.defineProperty(this, key, {
@@ -69,9 +88,11 @@ export class PropertiesState<TObject>
 
   clean(): void {
     Object.values(this._properties).forEach((x) => (x as ICleanable).clean());
+    this._errors = [];
   }
 
   reset(): void {
     Object.values(this._properties).forEach((x) => (x as IResetable).reset());
+    this._errors = [];
   }
 }

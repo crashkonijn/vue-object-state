@@ -96,4 +96,83 @@ describe('PropertiesState', () => {
     // Assert
     expect(state.key).toBe(key)
   })
+
+  describe('errors', () => {
+    it('should correctly be initialized', () => {
+      // Arrange
+      const state = new PropertiesState('', { }, { } as unknown as ObjectProperties<any>)
+
+      // Assert
+      expect(state.errors).toEqual([])
+      expect(state.hasErrors).toBe(false)
+    })
+
+    it('should correctly be updated', () => {
+      // Arrange
+      const state = new PropertiesState('', { }, { } as unknown as ObjectProperties<any>)
+      const errors = ['Something wrong']
+
+      // Act
+      const act = () => state.errors = errors
+
+      // Assert
+      expect(state.hasErrors).toBe(false)
+      act()
+      expect(state.errors).toBe(errors)
+      expect(state.hasErrors).toBe(true)
+    })
+
+    it('should be empty after reset', () => {
+      // Arrange
+      const state = new PropertiesState('', { }, { } as unknown as ObjectProperties<any>)
+      const errors = ['Something wrong']
+      state.errors = errors
+
+      // Act
+      const act = () => state.reset()
+
+      // Assert
+      expect(state.hasErrors).toBe(true)
+      expect(state.errors).toBe(errors)
+      act()
+      expect(state.hasErrors).toBe(false)
+      expect(state.errors).toEqual([])
+    })
+
+    it('should be empty after clean', () => {
+      // Arrange
+      const state = new PropertiesState('', { }, { } as unknown as ObjectProperties<any>)
+      const errors = ['Something wrong']
+      state.errors = errors
+
+      // Act
+      const act = () => state.clean()
+
+      // Assert
+      expect(state.hasErrors).toBe(true)
+      expect(state.errors).toBe(errors)
+      act()
+      expect(state.hasErrors).toBe(false)
+      expect(state.errors).toEqual([])
+    })
+
+    it('hasErrors should be true with dirty childState', () => {
+      // Arrange
+      const properties = {
+        firstName: new PropertyState('', '')
+      }
+      const state = new PropertiesState('', properties, properties as unknown as ObjectProperties<any>) as unknown as ObjectProperties<User>
+      const errors = ['Something wrong']
+
+      // Act
+      const act = () => state.firstName.errors = errors
+
+      // Assert
+      expect(state.hasErrors).toBe(false)
+      expect(state.errors).toEqual([])
+      act()
+      expect(state.hasErrors).toBe(true)
+      expect(state.errors).toEqual([])
+    })
+  })
 })

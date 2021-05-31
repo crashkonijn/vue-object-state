@@ -1,13 +1,14 @@
 import _ from 'lodash';
 import Vue from 'vue';
 
-import { IBuildable, ICleanable, IResetable, IState } from './types';
+import { IBuildable, ICleanable, IErrors, IResetable, IState } from './types';
 
 export class PropertyState<TValue>
-  implements IState, IBuildable<TValue>, ICleanable, IResetable {
+  implements IState, IBuildable<TValue>, ICleanable, IResetable, IErrors {
   private _key: string;
   private _value!: TValue;
   private _original!: TValue;
+  private _errors!: string[];
 
   get key(): string {
     return this._key;
@@ -19,6 +20,18 @@ export class PropertyState<TValue>
 
   set value(value: TValue) {
     this._value = value;
+  }
+
+  get errors(): string[] {
+    return this._errors;
+  }
+
+  set errors(errors: string[]) {
+    this._errors = errors;
+  }
+
+  get hasErrors(): boolean {
+    return !!this._errors.length;
   }
 
   get isDirty(): boolean {
@@ -33,6 +46,7 @@ export class PropertyState<TValue>
   reset(value?: TValue) {
     Vue.set(this, '_value', this.getResetValue(value));
     Vue.set(this, '_original', this.getResetValue(value));
+    Vue.set(this, '_errors', []);
   }
 
   build(): TValue {
@@ -41,6 +55,7 @@ export class PropertyState<TValue>
 
   clean(): void {
     this._original = this._value;
+    this.errors = [];
   }
 
   private getResetValue(value?: TValue) {

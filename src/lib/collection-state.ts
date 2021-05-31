@@ -17,6 +17,10 @@ export class CollectionState<T>
     return this._elements.filter((x) => x.isDirty);
   }
 
+  get errorElements(): ObjectState<T>[] {
+    return this._elements.filter((x) => x.hasErrors);
+  }
+
   get count(): number {
     return this._elements.length;
   }

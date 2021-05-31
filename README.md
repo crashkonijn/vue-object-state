@@ -54,6 +54,13 @@ state.clean()
 state.properties.reset()
 state.properties.firstName.reset()
 state.reset()
+
+// You can also store errors
+state.properties.errors // []
+state.hasErrors // false
+state.properties.firstName.hasErrors = false
+state.properties.firstName.errors = ['Whoops']
+state.hasErrors // true
 ```
 
 ## Collection
