@@ -153,4 +153,34 @@ describe('ObjectState', () => {
     // Assert
     expect(values).toBeInstanceOf(StateValues)
   })
+
+  describe('errors', () => {
+    it('should be able to set/get errors', () => {
+      // Arrange
+      const state = new ObjectState(new User())
+      const errors = ['Whoops']
+
+      // Act
+      const act = () => state.errors = errors
+
+      // Assert
+      expect(state.errors).toEqual([])
+      act()
+      expect(state.errors).toEqual(errors)
+    })
+
+    it('should be able to read hasErrors', () => {
+      // Arrange
+      const state = new ObjectState(new User())
+      const errors = ['Whoops']
+
+      // Act
+      const act = () => state.errors = errors
+
+      // Assert
+      expect(state.hasErrors).toBeFalsy()
+      act()
+      expect(state.errors).toBeTruthy()
+    })
+  })
 })

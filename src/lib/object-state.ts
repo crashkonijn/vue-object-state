@@ -2,6 +2,7 @@ import { StateBuilder } from './state-builder';
 import {
   IBuildable,
   ICleanable,
+  IErrors,
   IResetable,
   IState,
   IValues,
@@ -15,11 +16,24 @@ export class ObjectState<TObject>
     ICleanable,
     IResetable,
     IBuildable<TObject>,
-    IValues<TObject> {
+    IValues<TObject>,
+    IErrors {
   public properties: ObjectProperties<TObject>;
 
   get isDirty(): boolean {
     return this.properties.isDirty;
+  }
+
+  get errors(): string[] {
+    return this.properties.errors;
+  }
+
+  set errors(errors: string[]) {
+    this.properties.errors = errors;
+  }
+
+  get hasErrors(): boolean {
+    return this.properties.hasErrors;
   }
 
   get values(): ObjectValues<TObject> {

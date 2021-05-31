@@ -17,7 +17,7 @@ describe('Collection', () => {
   })
 
   describe('dirtyElements', () => {
-    it('should not contain clean elements', () => {
+    it('should not contain dirty elements', () => {
       // Arrange
       const users = [new User()]
 
@@ -253,6 +253,37 @@ describe('Collection', () => {
       // Assert
       expect(collection.some(x => x.firstName === 'Spongebob')).toBeTruthy()
       expect(collection.some(x => x.firstName === 'Patrick')).toBeFalsy()
+    })
+  })
+
+  describe('errorElements', () => {
+    it('should not contain error elements', () => {
+      // Arrange
+      const users = [new User()]
+
+      // Act
+      const collection = new CollectionState(users)
+
+      // Assert
+      expect(collection.elements).toHaveLength(1)
+      expect(collection.errorElements).toHaveLength(0)
+    })
+
+    it('should contain dirty elements', () => {
+      // Arrange
+      const collection = new CollectionState([new User()])
+
+      // Act
+      const act = () => collection.get(0).errors = ['Whoops']
+
+      // Assert
+      expect(collection.elements).toHaveLength(1)
+      expect(collection.errorElements).toHaveLength(0)
+
+      act()
+
+      expect(collection.elements).toHaveLength(1)
+      expect(collection.errorElements).toHaveLength(1)
     })
   })
 })

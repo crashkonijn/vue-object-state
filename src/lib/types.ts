@@ -6,6 +6,11 @@ export interface IState {
   isDirty: boolean;
 }
 
+export interface IErrors {
+  errors: string[];
+  hasErrors: boolean;
+}
+
 export interface IBuildable<TObject> {
   build(): TObject;
 }
@@ -27,6 +32,7 @@ export type ObjectProperties<TObject> = IState &
   IValues<TObject> &
   ICleanable &
   IResetable &
+  IErrors &
   {
     [TKey in keyof TObject]: TObject[TKey] extends object
       ? ObjectProperties<TObject[TKey]>
