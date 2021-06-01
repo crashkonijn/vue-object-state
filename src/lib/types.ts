@@ -9,6 +9,7 @@ export interface IState {
 export interface IErrors {
   errors: string[];
   hasErrors: boolean;
+  clearErrors(): void;
 }
 
 export interface IBuildable<TObject> {

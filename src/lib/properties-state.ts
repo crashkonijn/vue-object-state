@@ -95,4 +95,11 @@ export class PropertiesState<TObject>
     Object.values(this._properties).forEach((x) => (x as IResetable).reset());
     this._errors = [];
   }
+
+  clearErrors(): void {
+    Object.values(this._properties).forEach((x) =>
+      (x as IErrors).clearErrors()
+    );
+    this._errors = [];
+  }
 }

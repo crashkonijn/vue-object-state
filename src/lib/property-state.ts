@@ -58,6 +58,10 @@ export class PropertyState<TValue>
     this.errors = [];
   }
 
+  clearErrors(): void {
+    this._errors = [];
+  }
+
   private getResetValue(value?: TValue) {
     if (value === null || value === undefined) return this._original;
 

@@ -174,5 +174,28 @@ describe('PropertiesState', () => {
       expect(state.hasErrors).toBe(true)
       expect(state.errors).toEqual([])
     })
+
+    it('should properly clean with clearErrors', () => {
+      // Arrange
+      const props = {
+        firstName: new PropertyState('firstName', '')
+      }
+      const state = new PropertiesState('', props, props as unknown as ObjectProperties<any>) as unknown as ObjectProperties<User>
+      const errors = ['Something wrong']
+      state.errors = errors
+      state.firstName.errors = errors
+
+      // Act
+      const act = () => state.clean()
+
+      // Assert
+      expect(state.hasErrors).toBe(true)
+      expect(state.errors).toBe(errors)
+      expect(state.firstName.errors).toBe(errors)
+      act()
+      expect(state.hasErrors).toBe(false)
+      expect(state.errors).toEqual([])
+      expect(state.firstName.errors).toEqual([])
+    })
   })
 })

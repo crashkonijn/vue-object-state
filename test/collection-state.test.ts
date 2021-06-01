@@ -286,4 +286,29 @@ describe('Collection', () => {
       expect(collection.errorElements).toHaveLength(1)
     })
   })
+
+  describe('clearErrors', () => {
+    it('should call clearErrors on all elements', () => {
+      // Arrange
+      const user = new User({
+        firstName: 'Eugene'
+      })
+
+      const collection = new CollectionState<User>([user])
+      const state = collection.get(0)
+
+      state.properties.firstName.errors = ['Error']
+
+      // Act
+      const act = () => collection.clearErrors()
+
+      // Assert
+      expect(state.hasErrors).toBeTruthy()
+
+      act()
+
+      expect(state.hasErrors).toBeFalsy()
+      expect(state.properties.firstName.errors).toEqual([])
+    })
+  })
 })

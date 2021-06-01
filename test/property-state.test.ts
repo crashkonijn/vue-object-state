@@ -137,5 +137,22 @@ describe('PropertyState', () => {
       expect(state.hasErrors).toBe(false)
       expect(state.errors).toEqual([])
     })
+
+    it('should be able to clear errors', () => {
+      // Arrange
+      const state = new PropertyState('', 'Eugene')
+      const errors = ['Something wrong']
+      state.errors = errors
+
+      // Act
+      const act = () => state.clearErrors()
+
+      // Assert
+      expect(state.hasErrors).toBe(true)
+      expect(state.errors).toBe(errors)
+      act()
+      expect(state.hasErrors).toBe(false)
+      expect(state.errors).toEqual([])
+    })
   })
 })
