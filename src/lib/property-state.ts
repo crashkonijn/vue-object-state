@@ -59,7 +59,7 @@ export class PropertyState<TValue>
   }
 
   clearErrors(): void {
-    this._errors = []
+    this._errors = [];
   }
 
   private getResetValue(value?: TValue) {

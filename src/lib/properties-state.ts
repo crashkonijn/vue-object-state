@@ -97,7 +97,9 @@ export class PropertiesState<TObject>
   }
 
   clearErrors(): void {
-    Object.values(this._properties).forEach((x) => (x as IErrors).clearErrors());
-    this._errors = []
+    Object.values(this._properties).forEach((x) =>
+      (x as IErrors).clearErrors()
+    );
+    this._errors = [];
   }
 }
