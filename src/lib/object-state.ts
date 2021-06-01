@@ -55,4 +55,8 @@ export class ObjectState<TObject>
   reset(): void {
     this.properties.reset();
   }
+
+  clearErrors(): void {
+    this.properties.clearErrors();
+  }
 }

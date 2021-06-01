@@ -180,7 +180,24 @@ describe('ObjectState', () => {
       // Assert
       expect(state.hasErrors).toBeFalsy()
       act()
-      expect(state.errors).toBeTruthy()
+      expect(state.hasErrors).toBeTruthy()
+    })
+
+    it('should be able to clear errors', () => {
+      // Arrange
+      const state = new ObjectState(new User())
+      const errors = ['Whoops']
+      state.errors = errors
+
+      // Act
+      const act = () => state.clearErrors()
+
+      // Assert
+      expect(state.hasErrors).toBeTruthy()
+      expect(state.errors).toBe(errors)
+      act()
+      expect(state.hasErrors).toBeFalsy()
+      expect(state.errors).toEqual([])
     })
   })
 })

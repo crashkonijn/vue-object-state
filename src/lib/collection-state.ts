@@ -60,4 +60,8 @@ export class CollectionState<T>
   some(fn: (element: ObjectValues<T>) => boolean): boolean {
     return this._elements.some((e) => fn(e.values));
   }
+
+  clearErrors(): void {
+    this._elements.forEach((x) => x.clearErrors());
+  }
 }
