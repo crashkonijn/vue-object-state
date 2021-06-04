@@ -42,6 +42,32 @@ describe('PropertiesState', () => {
     expect(state.isDirty).toBeTruthy()
   })
 
+  it('should become dirty from being new', () => {
+    // Arrange
+    const state = new PropertiesState('', { }, { } as unknown as ObjectProperties<any>)
+
+    // Act
+    const act = () => state.markAsNew()
+
+    // Assert
+    expect(state.isDirty).toBeFalsy()
+    act()
+    expect(state.isDirty).toBeTruthy()
+  })
+
+  it('should become dirty from being deleted', () => {
+    // Arrange
+    const state = new PropertiesState('', { }, { } as unknown as ObjectProperties<any>)
+
+    // Act
+    const act = () => state.markAsDeleted()
+
+    // Assert
+    expect(state.isDirty).toBeFalsy()
+    act()
+    expect(state.isDirty).toBeTruthy()
+  })
+
   it('should define dynamic properties', () => {
     // Arrange
     const properties = {
