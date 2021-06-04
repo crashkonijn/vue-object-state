@@ -1,12 +1,12 @@
-import { Guid } from 'guid-typescript';
-
 import { StateBuilder } from './state-builder';
 import {
   IBuildable,
   ICleanable,
+  IDirty,
   IErrors,
+  IGuid,
   IResetable,
-  IState,
+  IStates,
   IValues,
   ObjectProperties,
   ObjectValues,
@@ -14,20 +14,18 @@ import {
 
 export class ObjectState<TObject>
   implements
-    IState,
+    IDirty,
     ICleanable,
     IResetable,
     IBuildable<TObject>,
     IValues<TObject>,
-    IErrors {
-  private _guid: string = Guid.create().toString();
-  private _isNew = false;
-  private _isDeleted = false;
-
+    IErrors,
+    IStates,
+    IGuid {
   public properties: ObjectProperties<TObject>;
 
   get guid(): string {
-    return this._guid;
+    return this.properties.guid;
   }
 
   get isDirty(): boolean {
@@ -51,11 +49,11 @@ export class ObjectState<TObject>
   }
 
   get isNew(): boolean {
-    return this._isNew;
+    return this.properties.isNew;
   }
 
   get isDeleted(): boolean {
-    return this._isDeleted;
+    return this.properties.isDeleted;
   }
 
   constructor(obj: TObject) {
@@ -68,12 +66,10 @@ export class ObjectState<TObject>
 
   clean(): void {
     this.properties.clean();
-    this._isNew = false;
   }
 
   reset(): void {
     this.properties.reset();
-    this._isDeleted = false;
   }
 
   clearErrors(): void {
@@ -81,12 +77,12 @@ export class ObjectState<TObject>
   }
 
   markAsDeleted(): this {
-    this._isDeleted = true;
+    this.properties.markAsDeleted();
     return this;
   }
 
   markAsNew(): this {
-    this._isNew = true;
+    this.properties.markAsNew();
     return this;
   }
 }

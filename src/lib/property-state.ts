@@ -1,10 +1,10 @@
 import _ from 'lodash';
 import Vue from 'vue';
 
-import { IBuildable, ICleanable, IErrors, IResetable, IState } from './types';
+import { IBuildable, ICleanable, IDirty, IErrors, IResetable } from './types';
 
 export class PropertyState<TValue>
-  implements IState, IBuildable<TValue>, ICleanable, IResetable, IErrors {
+  implements IDirty, IBuildable<TValue>, ICleanable, IResetable, IErrors {
   private _key: string;
   private _value!: TValue;
   private _original!: TValue;

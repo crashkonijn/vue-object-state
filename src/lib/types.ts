@@ -2,7 +2,7 @@
 import { PropertyState } from './property-state';
 import StateValues from './state-values';
 
-export interface IState {
+export interface IDirty {
   isDirty: boolean;
 }
 
@@ -28,12 +28,25 @@ export interface IValues<TObject> {
   values: ObjectValues<TObject>;
 }
 
-export type ObjectProperties<TObject> = IState &
+export interface IStates {
+  isNew: boolean;
+  isDeleted: boolean;
+  markAsNew(): this;
+  markAsDeleted(): this;
+}
+
+export interface IGuid {
+  guid: string;
+}
+
+export type ObjectProperties<TObject> = IDirty &
   IBuildable<TObject> &
   IValues<TObject> &
   ICleanable &
   IResetable &
   IErrors &
+  IStates &
+  IGuid &
   {
     [TKey in keyof TObject]: TObject[TKey] extends object
       ? ObjectProperties<TObject[TKey]>
