@@ -17,7 +17,7 @@ describe('Collection', () => {
   })
 
   describe('dirtyElements', () => {
-    it('should not contain dirty elements', () => {
+    it('should not contain non dirty elements', () => {
       // Arrange
       const users = [new User()]
 
@@ -102,6 +102,32 @@ describe('Collection', () => {
     })
   })
 
+  describe('remove', () => {
+    it('should remove a state', () => {
+      // Arrange
+      const eugene = new User({
+        firstName: 'Eugene'
+      })
+      const spongebob = new User({
+        firstName: 'Spongebob'
+      })
+
+      const collection = new CollectionState<User>([eugene, spongebob])
+      const spongebobState = collection.find(x => x.firstName === spongebob.firstName)!
+
+      // Act
+      const act = () => collection.remove(spongebobState)
+
+      // Assert
+      expect(collection.count).toBe(2)
+
+      act()
+
+      expect(collection.count).toBe(1)
+      expect(collection.get(0).properties.firstName.value).toBe(eugene.firstName)
+    })
+  })
+
   describe('clean', () => {
     it('should call clean on all elements', () => {
       // Arrange
@@ -124,6 +150,46 @@ describe('Collection', () => {
 
       expect(state.isDirty).toBeFalsy()
       expect(state.properties.firstName.value).toBe('Spongebob')
+    })
+
+    it('should remove deleted elements', () => {
+      // Arrange
+      const user = new User({
+        firstName: 'Eugene'
+      })
+
+      const collection = new CollectionState<User>([user])
+      collection.get(0).markAsDeleted()
+
+      // Act
+      const act = () => collection.clean()
+
+      // Assert
+      expect(collection.elements).toHaveLength(1)
+
+      act()
+
+      expect(collection.elements).toHaveLength(0)
+    })
+
+    it('should not remove new elements', () => {
+      // Arrange
+      const user = new User({
+        firstName: 'Eugene'
+      })
+
+      const collection = new CollectionState<User>([user])
+      collection.get(0).markAsNew()
+
+      // Act
+      const act = () => collection.clean()
+
+      // Assert
+      expect(collection.elements).toHaveLength(1)
+
+      act()
+
+      expect(collection.elements).toHaveLength(1)
     })
   })
 
@@ -149,6 +215,46 @@ describe('Collection', () => {
 
       expect(state.isDirty).toBeFalsy()
       expect(state.properties.firstName.value).toBe('Eugene')
+    })
+
+    it('should remove new elements', () => {
+      // Arrange
+      const user = new User({
+        firstName: 'Eugene'
+      })
+
+      const collection = new CollectionState<User>([user])
+      collection.get(0).markAsNew()
+
+      // Act
+      const act = () => collection.reset()
+
+      // Assert
+      expect(collection.elements).toHaveLength(1)
+
+      act()
+
+      expect(collection.elements).toHaveLength(0)
+    })
+
+    it('should not remove deleted elements', () => {
+      // Arrange
+      const user = new User({
+        firstName: 'Eugene'
+      })
+
+      const collection = new CollectionState<User>([user])
+      collection.get(0).markAsDeleted()
+
+      // Act
+      const act = () => collection.reset()
+
+      // Assert
+      expect(collection.elements).toHaveLength(1)
+
+      act()
+
+      expect(collection.elements).toHaveLength(1)
     })
   })
 
@@ -311,4 +417,73 @@ describe('Collection', () => {
       expect(state.properties.firstName.errors).toEqual([])
     })
   })
+
+  describe('newElements', () => {
+    it('should not contain \'old\' elements', () => {
+      // Arrange
+      const users = [new User()]
+
+      // Act
+      const collection = new CollectionState(users)
+
+      // Assert
+      expect(collection.elements).toHaveLength(1)
+      expect(collection.newElements).toHaveLength(0)
+    })
+
+    it('should contain new elements', () => {
+      // Arrange
+      const user = new User({
+        firstName: 'Eugene'
+      })
+      const collection = new CollectionState([user])
+
+      // Act
+      const act = () => collection.get(0).markAsNew()
+
+      // Assert
+      expect(collection.elements).toHaveLength(1)
+      expect(collection.newElements).toHaveLength(0)
+
+      act()
+
+      expect(collection.elements).toHaveLength(1)
+      expect(collection.newElements).toHaveLength(1)
+    })
+  })
+
+  describe('deletedElements', () => {
+    it('should not contain non-deleted elements', () => {
+      // Arrange
+      const users = [new User()]
+
+      // Act
+      const collection = new CollectionState(users)
+
+      // Assert
+      expect(collection.elements).toHaveLength(1)
+      expect(collection.deletedElements).toHaveLength(0)
+    })
+
+    it('should contain deleted elements', () => {
+      // Arrange
+      const user = new User({
+        firstName: 'Eugene'
+      })
+      const collection = new CollectionState([user])
+
+      // Act
+      const act = () => collection.get(0).markAsDeleted()
+
+      // Assert
+      expect(collection.elements).toHaveLength(1)
+      expect(collection.deletedElements).toHaveLength(0)
+
+      act()
+
+      expect(collection.elements).toHaveLength(1)
+      expect(collection.deletedElements).toHaveLength(1)
+    })
+  })
+
 })

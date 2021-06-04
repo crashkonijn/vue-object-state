@@ -200,4 +200,86 @@ describe('ObjectState', () => {
       expect(state.errors).toEqual([])
     })
   })
+
+  describe('new', () => {
+    it('should be able to mark as new', () => {
+      // Arrange
+      const state = new ObjectState(new User())
+
+      // Act
+      const act = () => state.markAsNew()
+
+      // Assert
+      expect(state.isNew).toBeFalsy()
+      act()
+      expect(state.isNew).toBeTruthy()
+    })
+
+    it('should be set to false by clean', () => {
+      // Arrange
+      const state = new ObjectState(new User()).markAsNew()
+
+      // Act
+      const act = () => state.clean()
+
+      // Assert
+      expect(state.isNew).toBeTruthy()
+      act()
+      expect(state.isNew).toBeFalsy()
+    })
+
+    it('should not be set to false by reset', () => {
+      // Arrange
+      const state = new ObjectState(new User()).markAsNew()
+
+      // Act
+      const act = () => state.reset()
+
+      // Assert
+      expect(state.isNew).toBeTruthy()
+      act()
+      expect(state.isNew).toBeTruthy()
+    })
+  })
+
+  describe('delete', () => {
+    it('should be able to mark as deleted', () => {
+      // Arrange
+      const state = new ObjectState(new User())
+
+      // Act
+      const act = () => state.markAsDeleted()
+
+      // Assert
+      expect(state.isDeleted).toBeFalsy()
+      act()
+      expect(state.isDeleted).toBeTruthy()
+    })
+
+    it('should be set to false by reset', () => {
+      // Arrange
+      const state = new ObjectState(new User()).markAsDeleted()
+
+      // Act
+      const act = () => state.reset()
+
+      // Assert
+      expect(state.isDeleted).toBeTruthy()
+      act()
+      expect(state.isDeleted).toBeFalsy()
+    })
+
+    it('should not be set to false by clean', () => {
+      // Arrange
+      const state = new ObjectState(new User()).markAsDeleted()
+
+      // Act
+      const act = () => state.clean()
+
+      // Assert
+      expect(state.isDeleted).toBeTruthy()
+      act()
+      expect(state.isDeleted).toBeTruthy()
+    })
+  })
 })
