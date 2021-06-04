@@ -1,3 +1,5 @@
+import { Guid } from 'guid-typescript';
+
 import { StateBuilder } from './state-builder';
 import {
   IBuildable,
@@ -18,7 +20,15 @@ export class ObjectState<TObject>
     IBuildable<TObject>,
     IValues<TObject>,
     IErrors {
+  private _guid: string = Guid.create().toString();
+  private _isNew = false;
+  private _isDeleted = false;
+
   public properties: ObjectProperties<TObject>;
+
+  get guid(): string {
+    return this._guid;
+  }
 
   get isDirty(): boolean {
     return this.properties.isDirty;
@@ -40,6 +50,14 @@ export class ObjectState<TObject>
     return this.properties.values;
   }
 
+  get isNew(): boolean {
+    return this._isNew;
+  }
+
+  get isDeleted(): boolean {
+    return this._isDeleted;
+  }
+
   constructor(obj: TObject) {
     this.properties = new StateBuilder().build(obj);
   }
@@ -50,13 +68,25 @@ export class ObjectState<TObject>
 
   clean(): void {
     this.properties.clean();
+    this._isNew = false;
   }
 
   reset(): void {
     this.properties.reset();
+    this._isDeleted = false;
   }
 
   clearErrors(): void {
     this.properties.clearErrors();
+  }
+
+  markAsDeleted(): this {
+    this._isDeleted = true;
+    return this;
+  }
+
+  markAsNew(): this {
+    this._isNew = true;
+    return this;
   }
 }

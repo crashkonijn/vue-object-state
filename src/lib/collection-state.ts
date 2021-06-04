@@ -21,6 +21,14 @@ export class CollectionState<T>
     return this._elements.filter((x) => x.hasErrors);
   }
 
+  get newElements(): ObjectState<T>[] {
+    return this._elements.filter((x) => x.isNew);
+  }
+
+  get deletedElements(): ObjectState<T>[] {
+    return this._elements.filter((x) => x.isDeleted);
+  }
+
   get count(): number {
     return this._elements.length;
   }
@@ -37,11 +45,19 @@ export class CollectionState<T>
     this._elements.push(new ObjectState(element));
   }
 
+  remove(element: ObjectState<T>) {
+    this._elements = this._elements.filter((x) => x !== element);
+  }
+
   clean(): void {
+    this._elements = this._elements.filter((x) => !x.isDeleted);
+
     this._elements.forEach((x) => x.clean());
   }
 
   reset(): void {
+    this._elements = this._elements.filter((x) => !x.isNew);
+
     this._elements.forEach((x) => x.reset());
   }
 

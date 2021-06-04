@@ -4,6 +4,7 @@ import { Address, User } from './helpers'
 import { ObjectState } from '../src/lib/object-state'
 import { PropertiesState } from '../src/lib/properties-state'
 import StateValues from '../src/lib/state-values'
+import { Guid } from 'guid-typescript'
 
 describe('ObjectState', () => {
   it('should initialize object correctly', () => {
@@ -36,6 +37,25 @@ describe('ObjectState', () => {
 
     // Assert
     expect(state.properties).toBeInstanceOf(PropertiesState)
+  })
+
+  describe('guid', () => {
+    it('should contain a guid', () => {
+      // Arrange
+      const state = new ObjectState(new User())
+
+      // Assert
+      expect(Guid.isGuid(state.guid)).toBeTruthy()
+    })
+
+    it('should not be the same', () => {
+      // Arrange
+      const stateA = new ObjectState(new User())
+      const stateB = new ObjectState(new User())
+
+      // Assert
+      expect(stateA.guid).not.toEqual(stateB.guid)
+    })
   })
 
   describe('isDirty', () => {
@@ -198,6 +218,88 @@ describe('ObjectState', () => {
       act()
       expect(state.hasErrors).toBeFalsy()
       expect(state.errors).toEqual([])
+    })
+  })
+
+  describe('new', () => {
+    it('should be able to mark as new', () => {
+      // Arrange
+      const state = new ObjectState(new User())
+
+      // Act
+      const act = () => state.markAsNew()
+
+      // Assert
+      expect(state.isNew).toBeFalsy()
+      act()
+      expect(state.isNew).toBeTruthy()
+    })
+
+    it('should be set to false by clean', () => {
+      // Arrange
+      const state = new ObjectState(new User()).markAsNew()
+
+      // Act
+      const act = () => state.clean()
+
+      // Assert
+      expect(state.isNew).toBeTruthy()
+      act()
+      expect(state.isNew).toBeFalsy()
+    })
+
+    it('should not be set to false by reset', () => {
+      // Arrange
+      const state = new ObjectState(new User()).markAsNew()
+
+      // Act
+      const act = () => state.reset()
+
+      // Assert
+      expect(state.isNew).toBeTruthy()
+      act()
+      expect(state.isNew).toBeTruthy()
+    })
+  })
+
+  describe('delete', () => {
+    it('should be able to mark as deleted', () => {
+      // Arrange
+      const state = new ObjectState(new User())
+
+      // Act
+      const act = () => state.markAsDeleted()
+
+      // Assert
+      expect(state.isDeleted).toBeFalsy()
+      act()
+      expect(state.isDeleted).toBeTruthy()
+    })
+
+    it('should be set to false by reset', () => {
+      // Arrange
+      const state = new ObjectState(new User()).markAsDeleted()
+
+      // Act
+      const act = () => state.reset()
+
+      // Assert
+      expect(state.isDeleted).toBeTruthy()
+      act()
+      expect(state.isDeleted).toBeFalsy()
+    })
+
+    it('should not be set to false by clean', () => {
+      // Arrange
+      const state = new ObjectState(new User()).markAsDeleted()
+
+      // Act
+      const act = () => state.clean()
+
+      // Assert
+      expect(state.isDeleted).toBeTruthy()
+      act()
+      expect(state.isDeleted).toBeTruthy()
     })
   })
 })
