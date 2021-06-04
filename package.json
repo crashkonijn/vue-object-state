@@ -7,7 +7,12 @@
   "module": "build/module/index.js",
   "repository": "https://github.com/crashkonijn/vue-object-state",
   "license": "MIT",
-  "keywords": ["Vue","VueJS","object","state"],
+  "keywords": [
+    "Vue",
+    "VueJS",
+    "object",
+    "state"
+  ],
   "scripts": {
     "build": "run-p build:*",
     "build:main": "tsc -p tsconfig.json",
@@ -39,6 +44,7 @@
     "node": ">=10"
   },
   "dependencies": {
+    "guid-typescript": "^1.0.9",
     "lodash": "^4.17.20",
     "vue": "^2.6.12"
   },
