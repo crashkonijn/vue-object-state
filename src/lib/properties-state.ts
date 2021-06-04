@@ -1,12 +1,15 @@
+import { Guid } from 'guid-typescript';
 import _ from 'lodash';
 
 import StateValues from './state-values';
 import {
   IBuildable,
   ICleanable,
+  IDirty,
   IErrors,
+  IGuid,
   IResetable,
-  IState,
+  IStates,
   IValues,
   ObjectProperties,
   ObjectValues,
@@ -14,20 +17,29 @@ import {
 
 export class PropertiesState<TObject>
   implements
-    IState,
+    IDirty,
     IBuildable<TObject>,
     IValues<TObject>,
     ICleanable,
     IResetable,
-    IErrors {
+    IErrors,
+    IStates,
+    IGuid {
+  private _guid: string = Guid.create().toString();
   private _properties!: ObjectProperties<TObject>;
   private _original: TObject;
   private _key: string;
   private _values: ObjectValues<TObject> & StateValues<TObject>;
   private _errors!: string[];
+  private _isNew = false;
+  private _isDeleted = false;
+
+  get guid(): string {
+    return this._guid;
+  }
 
   get isDirty(): boolean {
-    return Object.values(this._properties).some((x) => (x as IState).isDirty);
+    return Object.values(this._properties).some((x) => (x as IDirty).isDirty);
   }
 
   get key(): string {
@@ -51,6 +63,14 @@ export class PropertiesState<TObject>
       return true;
 
     return !!this._errors.length;
+  }
+
+  get isNew(): boolean {
+    return this._isNew;
+  }
+
+  get isDeleted(): boolean {
+    return this._isDeleted;
   }
 
   constructor(
@@ -89,11 +109,13 @@ export class PropertiesState<TObject>
   clean(): void {
     Object.values(this._properties).forEach((x) => (x as ICleanable).clean());
     this._errors = [];
+    this._isNew = false;
   }
 
   reset(): void {
     Object.values(this._properties).forEach((x) => (x as IResetable).reset());
     this._errors = [];
+    this._isDeleted = false;
   }
 
   clearErrors(): void {
@@ -101,5 +123,15 @@ export class PropertiesState<TObject>
       (x as IErrors).clearErrors()
     );
     this._errors = [];
+  }
+
+  markAsDeleted(): this {
+    this._isDeleted = true;
+    return this;
+  }
+
+  markAsNew(): this {
+    this._isNew = true;
+    return this;
   }
 }

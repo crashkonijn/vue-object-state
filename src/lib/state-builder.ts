@@ -2,13 +2,10 @@ import Vue from 'vue';
 
 import { PropertiesState } from './properties-state';
 import { PropertyState } from './property-state';
-import { IState, ObjectProperties } from './types';
+import { ObjectProperties } from './types';
 
 export class StateBuilder {
-  build<TObject>(
-    obj: TObject,
-    key = 'root'
-  ): ObjectProperties<TObject> & IState {
+  build<TObject>(obj: TObject, key = 'root'): ObjectProperties<TObject> {
     return (new PropertiesState(
       key,
       obj,
