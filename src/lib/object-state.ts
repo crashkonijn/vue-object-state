@@ -1,4 +1,4 @@
-import { Guid } from 'guid-typescript'
+import { Guid } from 'guid-typescript';
 
 import { StateBuilder } from './state-builder';
 import {
@@ -20,14 +20,14 @@ export class ObjectState<TObject>
     IBuildable<TObject>,
     IValues<TObject>,
     IErrors {
-  private _guid: string = Guid.create().toString()
+  private _guid: string = Guid.create().toString();
   private _isNew = false;
   private _isDeleted = false;
 
   public properties: ObjectProperties<TObject>;
 
   get guid(): string {
-    return this._guid
+    return this._guid;
   }
 
   get isDirty(): boolean {
