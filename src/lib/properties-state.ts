@@ -39,6 +39,10 @@ export class PropertiesState<TObject>
   }
 
   get isDirty(): boolean {
+    if (this._isDeleted || this._isNew) {
+      return true;
+    }
+
     return Object.values(this._properties).some((x) => (x as IDirty).isDirty);
   }
 
