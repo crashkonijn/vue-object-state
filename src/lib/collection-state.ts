@@ -1,4 +1,5 @@
 import { ObjectState } from './object-state';
+import StateValues from './state-values';
 import { IBuildable, ICleanable, IResetable, ObjectValues } from './types';
 
 export class CollectionState<T>
@@ -45,8 +46,10 @@ export class CollectionState<T>
     this._elements.push(new ObjectState(element));
   }
 
-  remove(element: ObjectState<T>) {
-    this._elements = this._elements.filter((x) => x !== element);
+  remove(element: ObjectState<T> | ObjectValues<T>) {
+    this._elements = this._elements.filter(
+      (x) => x.guid !== this.getGuid(element)
+    );
   }
 
   clean(): void {
@@ -79,5 +82,13 @@ export class CollectionState<T>
 
   clearErrors(): void {
     this._elements.forEach((x) => x.clearErrors());
+  }
+
+  private getGuid(element: ObjectState<T> | ObjectValues<T>): string {
+    if (element instanceof StateValues) {
+      return element.propertiesState.guid;
+    }
+
+    return element.guid;
   }
 }
