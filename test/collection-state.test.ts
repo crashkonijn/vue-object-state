@@ -103,7 +103,7 @@ describe('Collection', () => {
   })
 
   describe('remove', () => {
-    it('should remove a state', () => {
+    it('should remove a ObjectState', () => {
       // Arrange
       const eugene = new User({
         firstName: 'Eugene'
@@ -117,6 +117,30 @@ describe('Collection', () => {
 
       // Act
       const act = () => collection.remove(spongebobState)
+
+      // Assert
+      expect(collection.count).toBe(2)
+
+      act()
+
+      expect(collection.count).toBe(1)
+      expect(collection.get(0).properties.firstName.value).toBe(eugene.firstName)
+    })
+
+    it('should remove a ObjectValues', () => {
+      // Arrange
+      const eugene = new User({
+        firstName: 'Eugene'
+      })
+      const spongebob = new User({
+        firstName: 'Spongebob'
+      })
+
+      const collection = new CollectionState<User>([eugene, spongebob])
+      const spongebobState = collection.find(x => x.firstName === spongebob.firstName)!
+
+      // Act
+      const act = () => collection.remove(spongebobState.values)
 
       // Assert
       expect(collection.count).toBe(2)
