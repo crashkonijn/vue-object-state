@@ -6,6 +6,12 @@
 
 A typescript library that helps you keep track of changes in your dtos
 
+## Install
+
+```
+npm i vue-object-state
+```
+
 ## Basic example
 
 ```typescript
